@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.ListFragment">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="225dp">
+            <ImageView
+                android:id="@+id/img_weather"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
+                android:src="@drawable/sunny"
+                android:layout_margin="15dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"/>
+
+            <TextView
+                android:id="@+id/tv_weather_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35dp"
+                android:textStyle="italic"
+                android:text="Cloudy"
+                android:textSize="27sp"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/img_weather"/>
+
+            <ImageView
+                android:id="@+id/img_temp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/temperature"
+                android:layout_marginTop="65dp"
+                android:layout_marginRight="10dp"
+                android:layout_toRightOf="@+id/img_weather"/>
+
+            <TextView
+                android:id="@+id/tv_temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="25"
+                android:layout_marginTop="15dp"
+                android:textColor="#000"
+                android:textStyle="bold"
+                android:textSize="60sp"
+                android:layout_toRightOf="@+id/img_temp"/>
+            <TextView
+                android:id="@+id/tv_max_min"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="10dp"
+                android:text="27/26"
+                android:textSize="15sp"
+                android:layout_below="@+id/tv_temp"
+                android:layout_toRightOf="@+id/img_temp"/>
+            <ImageView
+                android:id="@+id/img_wind"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/wind"
+                android:layout_marginLeft="35dp"
+                android:layout_marginTop="60dp"
+                android:layout_toRightOf="@id/tv_temp"/>
+
+            <TextView
+                android:id="@+id/tv_wind"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="56dp"
+                android:layout_marginLeft="17dp"
+                android:text="115 kmph"
+                android:textSize="15sp"
+                android:layout_toRightOf="@+id/img_wind"/>
+
+            <ImageView
+                android:id="@+id/img_humidity"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/humidity"
+                android:layout_marginLeft="35dp"
+                android:layout_marginTop="20dp"
+                android:layout_below="@id/img_wind"
+                android:layout_toRightOf="@id/tv_temp"/>
+
+            <TextView
+                android:id="@+id/tv_humidity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="17dp"
+                android:text="70 %"
+                android:textSize="15sp"
+                android:layout_below="@+id/tv_wind"
+                android:layout_toRightOf="@+id/img_humidity"/>
+
+            <ImageView
+                android:id="@+id/img_pressure"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/pressure"
+                android:layout_marginLeft="35dp"
+                android:layout_marginTop="20dp"
+                android:layout_below="@id/img_humidity"
+                android:layout_toRightOf="@id/tv_temp"/>
+
+            <TextView
+                android:id="@+id/tv_pressure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="17dp"
+                android:text="115 hPa"
+                android:textSize="15sp"
+                android:layout_below="@+id/tv_humidity"
+                android:layout_toRightOf="@+id/img_pressure"/>
+
+            <TextView
+                android:id="@+id/tv_today"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="19sp"
+                android:text="today"
+                android:textAllCaps="true"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="25dp"/>
+
+            <TextView
+                android:id="@+id/tv_lua"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Last Updated at"
+                android:textStyle="italic"
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/img_pressure"/>
+
+            <TextView
+                android:id="@+id/tv_last_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="06:00:00"
+                android:textStyle="italic"
+                android:layout_marginRight="25dp"
+                android:layout_below="@id/tv_lua"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_forecast"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:scrollbars="vertical"
+        android:layout_marginTop="225dp"/>
+
+</FrameLayout>
