@@ -1,5 +1,6 @@
 package com.example.weatherapp.Interfaces;
 
+import com.example.weatherapp.Model.Result;
 import com.example.weatherapp.Model.WList;
 
 import retrofit2.Call;
@@ -9,6 +10,7 @@ import retrofit2.http.Query;
 public interface ListInterface {
 
     @GET("forecast")
-    Call<WList> getWeatherData(@Query("q") String city, @Query("appid") String api);
+    Call<Result> getWeatherData(@Query("lat") String lat, @Query("lon") String lon,
+                                @Query("appid") String api);
 
 }

@@ -12,11 +12,15 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.weatherapp.Adapters.ViewPagerAdapter;
 import com.example.weatherapp.Common;
@@ -35,6 +39,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -51,9 +56,26 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         initViews();
-        getCurrentLocation();
-        setUpViewPager();
+        if(checkNetwork()){
+            getCurrentLocation();
+        }
+    }
 
+    private boolean checkNetwork() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            ConnectivityManager connectivityManager = (ConnectivityManager) Objects.requireNonNull(getApplicationContext())
+                    .getSystemService(Context.CONNECTIVITY_SERVICE);
+            assert  connectivityManager != null;
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+            if(networkInfo==null || networkInfo.isFailover()){
+                Toast.makeText(getApplicationContext(), "Kindly check your internet connection",
+                        Toast.LENGTH_LONG).show();
+                return false;
+            }else{
+                return true;
+            }
+        }
+        return true;
     }
 
     private void getCurrentLocation() {
@@ -76,6 +98,7 @@ public class HomeActivity extends AppCompatActivity {
                         if (location != null) {
                             lat = location.getLatitude();
                             lon = location.getLongitude();
+                            Common.location = location;
 
                             Geocoder gCoder = new Geocoder(getApplicationContext(), Locale.getDefault());
                             try {
@@ -89,6 +112,9 @@ public class HomeActivity extends AppCompatActivity {
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
+
+                            setUpViewPager();
+
                         }
                     }
                 });

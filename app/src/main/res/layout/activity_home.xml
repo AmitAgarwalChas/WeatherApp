@@ -15,9 +15,10 @@
         android:layout_gravity="center">
         <TextView
             android:id="@+id/tv_city"
-            android:layout_width="154dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="City"
+            android:layout_gravity="center"
             android:layout_margin="15dp"
             android:textSize="22sp"/>
 

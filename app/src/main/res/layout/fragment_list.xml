@@ -6,17 +6,21 @@
     tools:context=".Fragments.ListFragment">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cv_today"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="225dp">
+            android:layout_height="190dp">
             <ImageView
                 android:id="@+id/img_weather"
-                android:layout_width="125dp"
-                android:layout_height="125dp"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
                 android:src="@drawable/sunny"
-                android:layout_margin="15dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="5dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"/>
 
@@ -24,10 +28,10 @@
                 android:id="@+id/tv_weather_desc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="35dp"
+                android:layout_marginLeft="21dp"
                 android:textStyle="italic"
-                android:text="Cloudy"
-                android:textSize="27sp"
+                android:text="Clouds"
+                android:textSize="19sp"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/img_weather"/>
 
@@ -45,19 +49,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="25"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="27dp"
                 android:textColor="#000"
                 android:textStyle="bold"
-                android:textSize="60sp"
+                android:textSize="37sp"
                 android:layout_toRightOf="@+id/img_temp"/>
             <TextView
                 android:id="@+id/tv_max_min"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:text="27/26"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:layout_below="@+id/tv_temp"
                 android:layout_toRightOf="@+id/img_temp"/>
             <ImageView
@@ -66,14 +70,14 @@
                 android:layout_height="15dp"
                 android:src="@drawable/wind"
                 android:layout_marginLeft="35dp"
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="32dp"
                 android:layout_toRightOf="@id/tv_temp"/>
 
             <TextView
                 android:id="@+id/tv_wind"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="56dp"
+                android:layout_marginTop="28dp"
                 android:layout_marginLeft="17dp"
                 android:text="115 kmph"
                 android:textSize="15sp"
@@ -127,10 +131,11 @@
                 android:layout_height="wrap_content"
                 android:textSize="19sp"
                 android:text="today"
+                android:textStyle="bold"
                 android:textAllCaps="true"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="25dp"/>
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_below="@id/tv_weather_desc"/>
 
             <TextView
                 android:id="@+id/tv_lua"

@@ -2,85 +2,23 @@ package com.example.weatherapp.Model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class WList {
     @SerializedName("dt")
-    private Integer dt;
+    public Integer dt;
     @SerializedName("main")
-    private Main main;
+    public Main main;
     @SerializedName("weather")
-    private java.util.List<Weather> weather = null;
+    public ArrayList<Weather> weather = new ArrayList<>();
     @SerializedName("clouds")
-    private Clouds clouds;
+    public Clouds clouds;
     @SerializedName("wind")
-    private Wind wind;
+    public Wind wind;
     @SerializedName("sys")
-    private Sys sys;
+    public Sys sys;
     @SerializedName("dt_txt")
-    private String dtTxt;
+    public String dtTxt;
     @SerializedName("rain")
-    private Rain rain;
-
-    public Integer getDt() {
-        return dt;
-    }
-
-    public void setDt(Integer dt) {
-        this.dt = dt;
-    }
-
-    public Main getMain() {
-        return main;
-    }
-
-    public void setMain(Main main) {
-        this.main = main;
-    }
-
-    public java.util.List<Weather> getWeather() {
-        return weather;
-    }
-
-    public void setWeather(java.util.List<Weather> weather) {
-        this.weather = weather;
-    }
-
-    public Clouds getClouds() {
-        return clouds;
-    }
-
-    public void setClouds(Clouds clouds) {
-        this.clouds = clouds;
-    }
-
-    public Wind getWind() {
-        return wind;
-    }
-
-    public void setWind(Wind wind) {
-        this.wind = wind;
-    }
-
-    public Sys getSys() {
-        return sys;
-    }
-
-    public void setSys(Sys sys) {
-        this.sys = sys;
-    }
-
-    public String getDtTxt() {
-        return dtTxt;
-    }
-
-    public void setDtTxt(String dtTxt) {
-        this.dtTxt = dtTxt;
-    }
-
-    public Rain getRain() {
-        return rain;
-    }
-
-    public void setRain(Rain rain) {
-        this.rain = rain;
-    }
+    public Rain rain;
 }
