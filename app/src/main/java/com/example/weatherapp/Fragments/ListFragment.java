@@ -1,6 +1,5 @@
 package com.example.weatherapp.Fragments;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -9,6 +8,7 @@ import android.os.Bundle;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -19,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.example.weatherapp.Adapters.DetailsListAdapter;
 import com.example.weatherapp.Common;
 import com.example.weatherapp.Interfaces.ListInterface;
 import com.example.weatherapp.Model.Result;
@@ -26,6 +28,7 @@ import com.example.weatherapp.Model.WList;
 import com.example.weatherapp.R;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -40,17 +43,18 @@ public class ListFragment extends Fragment {
     private ImageView weather;
     private TextView weatherDesc, temp, maxMinTemp, wind, pressure, humidity, time;
     private RecyclerView listForecast;
-    ProgressDialog loading;
+    LottieAnimationView windLoading;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
 
-        loading = new ProgressDialog(getContext());
-        loading.setMessage("Loading...");
         initViews(view);
+        windLoading.setVisibility(View.GONE);
         todayDetails.setVisibility(View.INVISIBLE);
+        listForecast.setHasFixedSize(true);
+        listForecast.setLayoutManager(new LinearLayoutManager(getContext()));
         checkNetwork();
         getWeatherDetails();
 
@@ -67,7 +71,8 @@ public class ListFragment extends Fragment {
                 Toast.makeText(getContext(), "Please check your network connection",
                         Toast.LENGTH_LONG).show();
             }else{
-                loading.show();
+                windLoading.setVisibility(View.VISIBLE);
+                windLoading.playAnimation();
             }
         }
     }
@@ -80,7 +85,7 @@ public class ListFragment extends Fragment {
         ListInterface listInterface = retrofit.create(ListInterface.class);
         assert Common.location != null;
         Log.e("fragment cityName", Common.cityName);
-        Call<Result> weatherData = listInterface.getWeatherData(String.valueOf(Common.location.getLatitude()),
+        final Call<Result> weatherData = listInterface.getWeatherData(String.valueOf(Common.location.getLatitude()),
                 String.valueOf(Common.location.getLongitude()), Common.APP_ID);
         weatherData.enqueue(new Callback<Result>() {
             @Override
@@ -106,10 +111,14 @@ public class ListFragment extends Fragment {
                     pressure.setText(weatherResponse.list.get(0).main.pressure.toString() + " hpa");
                     time.setText(weatherResponse.list.get(0).dtTxt);
                     wind.setText((int)(weatherResponse.list.get(0).wind.speed * 3.6)+" km/h");
-                    loading.dismiss();
+                    ArrayList<Integer> positions;
+                    positions = getPositions(weatherResponse.list.get(0).dt, weatherResponse);
+                    DetailsListAdapter listAdapter = new DetailsListAdapter(getContext(), weatherResponse, positions);
+                    listForecast.setAdapter(listAdapter);
+                    windLoading.setVisibility(View.GONE);
                     todayDetails.setVisibility(View.VISIBLE);
                 }else{
-                    loading.dismiss();
+                    windLoading.setVisibility(View.GONE);
                     Toast.makeText(getContext(), "Sorry, No data is available for selected city",
                             Toast.LENGTH_SHORT).show();
                 }
@@ -117,11 +126,36 @@ public class ListFragment extends Fragment {
 
             @Override
             public void onFailure(Call<Result> call, Throwable t) {
-                loading.dismiss();
+                windLoading.setVisibility(View.GONE);
                 Log.e("Today Data", "Failure", t);
             }
         });
 
+    }
+
+    private ArrayList<Integer> getPositions(int date, Result response){
+        int count2 = 0, count3 = 0, count4 = 0, count5 = 0;
+        ArrayList<Integer> positions = new ArrayList<>();
+        int size = response.list.size();
+        for(int i=0;i<size;i++){
+            if(response.list.get(i).dt == date+86400 && count2 == 0){
+                positions.add(i);
+                count2++;
+            }
+            if(response.list.get(i).dt == date+172800 && count3 == 0){
+                positions.add(i);
+                count3++;
+            }
+            if(response.list.get(i).dt == date+259200 && count4 == 0){
+                positions.add(i);
+                count4++;
+            }
+            if(response.list.get(i).dt == date+345600 && count5 == 0){
+                positions.add(i);
+                count5++;
+            }
+        }
+        return positions;
     }
 
     private void initViews(View v) {
@@ -135,5 +169,6 @@ public class ListFragment extends Fragment {
         humidity = v.findViewById(R.id.tv_humidity);
         time = v.findViewById(R.id.tv_last_time);
         listForecast = v.findViewById(R.id.rv_forecast);
+        windLoading = v.findViewById(R.id.anime_wind);
     }
 }
