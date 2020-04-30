@@ -1,6 +1,7 @@
 package com.example.weatherapp.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.viewpager.widget.ViewPager;
 
@@ -17,8 +18,12 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +31,7 @@ import com.example.weatherapp.Adapters.ViewPagerAdapter;
 import com.example.weatherapp.Common;
 import com.example.weatherapp.Fragments.GraphFragment;
 import com.example.weatherapp.Fragments.ListFragment;
+import com.example.weatherapp.MapsActivity;
 import com.example.weatherapp.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -44,10 +50,9 @@ import java.util.Objects;
 public class HomeActivity extends AppCompatActivity {
 
     TabLayout tabLayout;
+    ImageView placePicker;
     TextView cityName;
     ViewPager viewPager;
-    private LocationCallback locationCallback;
-    private LocationRequest locationRequest;
     private FusedLocationProviderClient fusedLocationClient;
     Double lat = 0.0, lon = 0.0;
 
@@ -55,6 +60,11 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window w = getWindow(); // in Activity's onCreate() for instance
+            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        }
         initViews();
         if(checkNetwork()){
             getCurrentLocation();
@@ -106,13 +116,18 @@ public class HomeActivity extends AppCompatActivity {
                                 Log.d("Location:" , lat+" / "+lon);
                                 if(!addresses.isEmpty()){
                                     String city = addresses.get(0).getLocality();
-                                    cityName.setText(city);
                                     Common.cityName = city;
                                 }
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
 
+                            searchCity();
+                            if(Common.searchCityName == null){
+                                cityName.setText(Common.cityName);
+                            }else{
+                                cityName.setText(Common.searchCityName);
+                            }
                             setUpViewPager();
 
                         }
@@ -129,8 +144,19 @@ public class HomeActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
     }
 
+    private void searchCity() {
+        placePicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+                finish();
+            }
+        });
+    }
+
     private void initViews() {
         tabLayout = findViewById(R.id.tab_layout);
+        placePicker = findViewById(R.id.search_city);
         cityName = findViewById(R.id.tv_city);
         viewPager = findViewById(R.id.view_pager);
     }

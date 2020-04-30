@@ -49,7 +49,6 @@ public class ListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
-
         initViews(view);
         windLoading.setVisibility(View.GONE);
         todayDetails.setVisibility(View.INVISIBLE);
@@ -85,8 +84,15 @@ public class ListFragment extends Fragment {
         ListInterface listInterface = retrofit.create(ListInterface.class);
         assert Common.location != null;
         Log.e("fragment cityName", Common.cityName);
-        final Call<Result> weatherData = listInterface.getWeatherData(String.valueOf(Common.location.getLatitude()),
-                String.valueOf(Common.location.getLongitude()), Common.APP_ID);
+        String lat, lon;
+        if(Common.searchLatLng == null){
+            lat = String.valueOf(Common.location.getLatitude());
+            lon = String.valueOf(Common.location.getLongitude());
+        }else{
+            lat = String.valueOf(Common.searchLatLng.latitude);
+            lon = String.valueOf(Common.searchLatLng.longitude);
+        }
+        final Call<Result> weatherData = listInterface.getWeatherData(lat, lon, Common.APP_ID);
         weatherData.enqueue(new Callback<Result>() {
             @Override
             public void onResponse(Call<Result> call, Response<Result> response) {
