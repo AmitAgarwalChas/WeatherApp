@@ -3,11 +3,14 @@ package com.example.weatherapp.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -53,6 +56,7 @@ public class HomeActivity extends AppCompatActivity {
     ImageView placePicker;
     TextView cityName;
     ViewPager viewPager;
+    SwipeRefreshLayout refreshLayout;
     private FusedLocationProviderClient fusedLocationClient;
     Double lat = 0.0, lon = 0.0;
 
@@ -69,6 +73,14 @@ public class HomeActivity extends AppCompatActivity {
         if(checkNetwork()){
             getCurrentLocation();
         }
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshLayout.setRefreshing(false);
+                getCurrentLocation();
+            }
+        });
+
     }
 
     private boolean checkNetwork() {
@@ -159,5 +171,6 @@ public class HomeActivity extends AppCompatActivity {
         placePicker = findViewById(R.id.search_city);
         cityName = findViewById(R.id.tv_city);
         viewPager = findViewById(R.id.view_pager);
+        refreshLayout = findViewById(R.id.refresh);
     }
 }

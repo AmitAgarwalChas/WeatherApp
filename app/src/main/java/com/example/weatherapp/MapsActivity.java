@@ -82,7 +82,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         mMap.addMarker(new MarkerOptions().position(currentLocation));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 14f));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 10f));
         mMap.getUiSettings().setCompassEnabled(true);
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.getUiSettings().setRotateGesturesEnabled(true);
@@ -102,6 +102,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         mMap.clear();
                         mMap.addMarker(new MarkerOptions().position(Common.searchLatLng)
                                                             .title(Common.searchCityName));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(Common.searchLatLng));
                         startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                         finish();
                     }
